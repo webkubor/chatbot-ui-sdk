@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/webkubor/chatbot-ui-sdk">
-    <img src="https://raw.githubusercontent.com/webkubor/upic-images/main/uPic/2026/02/logo.svg" alt="Logo" width="80" height="80">
+    <img src="./docs/public/logo.svg" alt="Logo" width="80" height="80">
   </a>
 
   <h1 align="center">Chatbot UI SDK</h1>
@@ -13,7 +13,7 @@
 
   <p align="center">
     <a href="https://webkubor.github.io/chatbot-ui-sdk/"><strong>📚 View Documentation</strong></a> ·
-    <a href="https://chatbot-ui-sdk-wine.vercel.app/"><strong>🎨 Live Demo</strong></a> ·
+    <a href="https://chatbot-ui-sdk.vercel.app/"><strong>🎨 Live Demo</strong></a> ·
     <a href="https://github.com/webkubor/chatbot-ui-sdk/issues"><strong>🐛 Report Bug</strong></a>
   </p>
   
