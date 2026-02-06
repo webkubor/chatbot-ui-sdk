@@ -15,7 +15,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'ChatbotUI',
-      fileName: (format) => `chatbot-ui-sdk.${format}.js`,
+      fileName: (format) => `omni-chatbot-sdk.${format}.js`,
       formats: ['es', 'cjs', 'umd'],
     },
     rollupOptions: {

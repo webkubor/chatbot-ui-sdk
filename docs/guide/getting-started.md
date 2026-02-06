@@ -9,7 +9,7 @@
 这是最快的使用方式。将以下代码添加到您的 HTML `body` 标签中：
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/chatbot-ui-sdk/dist/chatbot-ui-sdk.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/omni-chatbot-sdk/dist/omni-chatbot-sdk.umd.js"></script>
 <script>
   ChatbotUI.init({
     apiConfig: {
@@ -33,13 +33,13 @@
 如果您正在开发 React 应用，推荐使用 NPM 包进行更紧密的集成。
 
 ```bash
-npm install chatbot-ui-sdk
+npm install omni-chatbot-sdk
 ```
 
 ```tsx
-import { Chatbot } from 'chatbot-ui-sdk';
+import { Chatbot } from 'omni-chatbot-sdk';
 // 引入样式文件
-import 'chatbot-ui-sdk/dist/style.css';
+import 'omni-chatbot-sdk/dist/style.css';
 
 function App() {
   return (

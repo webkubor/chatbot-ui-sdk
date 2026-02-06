@@ -208,7 +208,7 @@ deploy_to_local() {
             <code>&lt;script src="chatbot-sdk.umd.js"&gt;&lt;/script&gt;</code>
             
             <p>3. 初始化：</p>
-            <code>PayLinkerChatbot.init({ appId: 'your-app-id' })</code>
+            <code>ChatbotUI.init({ appId: 'your-app-id' })</code>
         </div>
         
         <p>聊天机器人将在页面右下角显示，点击即可开始对话。</p>
@@ -217,7 +217,7 @@ deploy_to_local() {
     <script src="chatbot-sdk.umd.js"></script>
     <script>
         // 初始化聊天机器人
-        PayLinkerChatbot.init({
+        ChatbotUI.init({
             appId: 'demo-app-id',
             theme: 'auto',
             mode: 'floating'
@@ -254,7 +254,7 @@ EOF
 <link rel="stylesheet" href="https://your-cdn.com/path/to/style.css">
 <script src="https://your-cdn.com/path/to/chatbot-sdk.umd.js"></script>
 <script>
-    PayLinkerChatbot.init({
+    ChatbotUI.init({
         appId: 'your-app-id',
         theme: 'auto',
         mode: 'floating'
@@ -292,7 +292,7 @@ generate_cdn_links() {
     echo "=== 使用示例 ==="
     echo '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/paylinker-chatbot-sdk@'$version'/dist/style.css">'
     echo '<script src="https://cdn.jsdelivr.net/npm/paylinker-chatbot-sdk@'$version'/dist/chatbot-sdk.umd.js"></script>'
-    echo '<script>PayLinkerChatbot.init({ appId: "your-app-id" });</script>'
+    echo '<script>ChatbotUI.init({ appId: "your-app-id" });</script>'
 }
 
 # 显示帮助信息

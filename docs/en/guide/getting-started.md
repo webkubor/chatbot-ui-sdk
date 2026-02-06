@@ -9,7 +9,7 @@ Embed a powerful AI assistant into any website or web application with just a fe
 Add the following to your HTML body. This is the fastest way to get started using our optimized UMD build.
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/chatbot-ui-sdk/dist/chatbot-ui-sdk.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/omni-chatbot-sdk/dist/omni-chatbot-sdk.umd.js"></script>
 <script>
   ChatbotUI.init({
     apiConfig: {
@@ -32,12 +32,12 @@ Add the following to your HTML body. This is the fastest way to get started usin
 If you are building a React application, you can install the package directly.
 
 ```bash
-npm install chatbot-ui-sdk
+npm install omni-chatbot-sdk
 ```
 
 ```tsx
-import { Chatbot } from 'chatbot-ui-sdk';
-import 'chatbot-ui-sdk/dist/style.css';
+import { Chatbot } from 'omni-chatbot-sdk';
+import 'omni-chatbot-sdk/dist/style.css';
 
 function App() {
   return (

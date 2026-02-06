@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-    base: '/chatbot-ui-sdk/',
+    base: '/omni-chatbot-sdk/',
     title: "Chatbot UI SDK",
     description: "A universal, lightweight, and highly customizable chatbot frontend UI SDK.",
 
@@ -18,7 +18,7 @@ export default defineConfig({
                     { text: '首页', link: '/' },
                     { text: '快速开始', link: '/guide/getting-started' },
                     { text: '后端协议', link: '/guide/backend-protocol' },
-                    { text: '在线演示', link: 'https://chatbot-ui-sdk.vercel.app' }
+                    { text: '在线演示', link: 'https://omni-chatbot-sdk.vercel.app' }
                 ],
                 sidebar: [
                     {
@@ -52,7 +52,7 @@ export default defineConfig({
                     { text: 'Home', link: '/en/' },
                     { text: 'Guide', link: '/en/guide/getting-started' },
                     { text: 'Protocol', link: '/en/guide/backend-protocol' },
-                    { text: 'Playground', link: 'https://chatbot-ui-sdk.vercel.app' }
+                    { text: 'Playground', link: 'https://omni-chatbot-sdk.vercel.app' }
                 ],
                 sidebar: [
                     {
@@ -90,7 +90,7 @@ export default defineConfig({
 
         // 社交链接是公用的
         socialLinks: [
-            { icon: 'github', link: 'https://github.com/webkubor/chatbot-ui-sdk' }
+            { icon: 'github', link: 'https://github.com/webkubor/omni-chatbot-sdk' }
         ],
 
         // 搜索配置

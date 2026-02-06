@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/webkubor/chatbot-ui-sdk">
+  <a href="https://github.com/webkubor/omni-chatbot-sdk">
     <img src="./docs/public/logo.svg" alt="Logo" width="80" height="80">
   </a>
 
@@ -12,27 +12,27 @@
   </p>
 
   <p align="center">
-    <a href="https://webkubor.github.io/chatbot-ui-sdk/"><strong>📚 Documentation</strong></a> ·
-    <a href="https://chatbot-ui-sdk-wine.vercel.app/"><strong>🌐 Official Site & Demo</strong></a> ·
-    <a href="https://github.com/webkubor/chatbot-ui-sdk/issues"><strong>🐛 Report Bug</strong></a>
+    <a href="https://webkubor.github.io/omni-chatbot-sdk/"><strong>📚 Documentation</strong></a> ·
+    <a href="https://omni-chatbot-sdk-wine.vercel.app/"><strong>🌐 Official Site & Demo</strong></a> ·
+    <a href="https://github.com/webkubor/omni-chatbot-sdk/issues"><strong>🐛 Report Bug</strong></a>
   </p>
   
   <p align="center">
     <!-- Version -->
-    <a href="https://www.npmjs.com/package/chatbot-ui-sdk">
-        <img src="https://img.shields.io/npm/v/chatbot-ui-sdk?style=flat-square&color=blue" alt="npm version" />
+    <a href="https://www.npmjs.com/package/omni-chatbot-sdk">
+        <img src="https://img.shields.io/npm/v/omni-chatbot-sdk?style=flat-square&color=blue" alt="npm version" />
     </a>
     <!-- License -->
     <a href="./LICENSE">
-        <img src="https://img.shields.io/npm/l/chatbot-ui-sdk?style=flat-square&color=blue" alt="license" />
+        <img src="https://img.shields.io/npm/l/omni-chatbot-sdk?style=flat-square&color=blue" alt="license" />
     </a>
     <!-- Bundle Size -->
-    <a href="https://bundlephobia.com/result?p=chatbot-ui-sdk">
-        <img src="https://img.shields.io/bundlephobia/minzip/chatbot-ui-sdk?style=flat-square&color=success" alt="bundle size" />
+    <a href="https://bundlephobia.com/result?p=omni-chatbot-sdk">
+        <img src="https://img.shields.io/bundlephobia/minzip/omni-chatbot-sdk?style=flat-square&color=success" alt="bundle size" />
     </a>
     <!-- Docs Build -->
-    <a href="https://github.com/webkubor/chatbot-ui-sdk/actions/workflows/deploy-docs.yml">
-        <img src="https://img.shields.io/github/actions/workflow/status/webkubor/chatbot-ui-sdk/deploy-docs.yml?label=docs&style=flat-square" alt="docs build" />
+    <a href="https://github.com/webkubor/omni-chatbot-sdk/actions/workflows/deploy-docs.yml">
+        <img src="https://img.shields.io/github/actions/workflow/status/webkubor/omni-chatbot-sdk/deploy-docs.yml?label=docs&style=flat-square" alt="docs build" />
     </a>
   </p>
 </div>
@@ -61,8 +61,8 @@ Unlike other chat widgets that lock you into specific providers, this SDK is **b
 Just drop this into your HTML. No build tools required.
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/chatbot-ui-sdk/dist/chatbot-ui-sdk.umd.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chatbot-ui-sdk/dist/style.css">
+<script src="https://cdn.jsdelivr.net/npm/omni-chatbot-sdk/dist/omni-chatbot-sdk.umd.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/omni-chatbot-sdk/dist/style.css">
 
 <script>
   ChatbotUI.init({
@@ -81,12 +81,12 @@ Just drop this into your HTML. No build tools required.
 ### 2. The Pro Way (NPM + React)
 
 ```bash
-npm install chatbot-ui-sdk
+npm install omni-chatbot-sdk
 ```
 
 ```tsx
-import { Chatbot } from 'chatbot-ui-sdk';
-import 'chatbot-ui-sdk/dist/style.css';
+import { Chatbot } from 'omni-chatbot-sdk';
+import 'omni-chatbot-sdk/dist/style.css';
 
 export default function App() {
   return (
@@ -120,7 +120,7 @@ This SDK **does not** communicate directly with OpenAI/DeepSeek to prevent leaki
 }
 ```
 
-👉 [Read the full Integration Guide](https://webkubor.github.io/chatbot-ui-sdk/guide/backend-protocol.html)
+👉 [Read the full Integration Guide](https://webkubor.github.io/omni-chatbot-sdk/guide/backend-protocol.html)
 
 ## 🛠 Development
 

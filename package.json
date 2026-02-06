@@ -1,20 +1,20 @@
 {
-  "name": "chatbot-ui-sdk",
+  "name": "omni-chatbot-sdk",
   "version": "1.0.3",
   "type": "module",
   "description": "A universal, customizable, and lightweight chatbot frontend UI SDK.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/webkubor/chatbot-ui-sdk.git"
+    "url": "git+https://github.com/webkubor/omni-chatbot-sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/webkubor/chatbot-ui-sdk/issues"
+    "url": "https://github.com/webkubor/omni-chatbot-sdk/issues"
   },
-  "homepage": "https://webkubor.github.io/chatbot-ui-sdk/",
-  "main": "dist/chatbot-ui-sdk.cjs.js",
-  "module": "dist/chatbot-ui-sdk.es.js",
+  "homepage": "https://webkubor.github.io/omni-chatbot-sdk/",
+  "main": "dist/omni-chatbot-sdk.cjs.js",
+  "module": "dist/omni-chatbot-sdk.es.js",
   "types": "dist/index.d.ts",
-  "browser": "dist/chatbot-ui-sdk.umd.js",
+  "browser": "dist/omni-chatbot-sdk.umd.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && cp index.html dist/",
