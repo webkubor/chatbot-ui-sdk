@@ -5,32 +5,69 @@
 /* 容器根样式 */
 #chatbot-ui-root {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
 }
 
 /* 基础变量与主题定义 */
 :root {
-  --pl-bg-main: 255 255 255;
-  --pl-bg-sec: 248 250 252;
+  --pl-bg-surface: 255 255 255;
+  --pl-bg-header: 255 255 255;
+  --pl-bg-input: 255 255 255;
   --pl-text-main: 15 23 42;
-  --pl-text-muted: 100 116 139;
-  --pl-border: rgba(226, 232, 240, 0.8); /* 浅色模式边框 */
+  --pl-text-sub: 100 116 139;
+  --pl-border-color: 226 232 240;
+  
+  --pl-bubble-bot-bg: 241 245 249;
+  --pl-bubble-bot-text: 15 23 42;
   
   --pl-accent-color: #104EFF;
   --pl-accent-hover: #002985;
-  --pl-accent-soft: rgba(16, 78, 255, 0.1);
+  --pl-shadow-color: 15 23 42;
 }
 
 /* 深色模式变量覆盖 */
 .pl-dark-mode {
-  --pl-bg-main: 15 23 42;
-  --pl-bg-sec: 30 41 59;
+  --pl-bg-surface: 15 23 42;
+  --pl-bg-header: 15 23 42;
+  --pl-bg-input: 30 41 59;
   --pl-text-main: 248 250 252;
-  --pl-text-muted: 148 163 184;
-  --pl-border: rgba(255, 255, 255, 0.08); /* 核心：深色模式使用极低透明度的白色边框，显得高级 */
+  --pl-text-sub: 148 163 184;
+  --pl-border-color: 51 65 85; 
+  
+  --pl-bubble-bot-bg: 30 41 59; 
+  --pl-bubble-bot-text: 241 245 249;
   
   --pl-accent-color: #60a5fa;
   --pl-accent-hover: #93c5fd;
-  --pl-accent-soft: rgba(96, 165, 250, 0.15);
+  --pl-shadow-color: 0 0 0;
+}
+
+/* 语义化类名 - 核心统一 */
+.pl-app-bg {
+  background-color: rgb(var(--pl-bg-surface));
+  color: rgb(var(--pl-text-main));
+}
+
+.pl-header-bg {
+  background-color: rgba(var(--pl-bg-header), 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgb(var(--pl-border-color));
+}
+
+.pl-input-area {
+  background-color: rgb(var(--pl-bg-header));
+  border-top: 1px solid rgb(var(--pl-border-color));
+}
+
+.cb-bubble-bot {
+  background-color: rgb(var(--pl-bubble-bot-bg));
+  color: rgb(var(--pl-bubble-bot-text));
+}
+
+.pl-shadow-premium {
+  box-shadow: 0 20px 40px -10px rgba(var(--pl-shadow-color), 0.15), 
+              0 0 15px -3px rgba(var(--pl-shadow-color), 0.05);
+  border: 1px solid rgb(var(--pl-border-color));
 }
 
 /* 动画定义 */
@@ -46,19 +83,13 @@
 }
 
 @keyframes pl-float-in {
-  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-@keyframes pl-typing-dot {
-  0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
-  30% { opacity: 1; transform: scale(1.2); }
-}
-
 /* 功能类 */
-.pl-float-animate { animation: pl-float-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.pl-float-animate { animation: pl-float-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .pl-message-animate { animation: pl-message-slide-in 0.3s ease-out forwards; }
-.pl-typing-dot { animation: pl-typing-dot 1.4s ease-in-out infinite; }
 
 .pl-rgb-border {
   position: relative;
@@ -66,29 +97,30 @@
   background-size: 300% 300%;
   animation: pl-rotate-gradient 3s ease alternate infinite;
   border-radius: 9999px;
-  padding: 2px;
+  padding: 1.5px;
 }
 
-/* 移除深色模式下的白色残留 */
-.pl-dark-mode .pl-rgb-border::after {
-  opacity: 0.2;
-}
+.pl-dark-mode .pl-rgb-border::after { opacity: 0.2; }
 
 /* 滚动条 */
 .pl-scrollbar::-webkit-scrollbar { width: 5px; }
 .pl-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .pl-scrollbar::-webkit-scrollbar-thumb { 
-  background: rgba(148, 163, 184, 0.2); 
+  background: rgba(148, 163, 184, 0.3); 
   border-radius: 10px; 
 }
-.pl-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.4); }
 
-/* Markdown 样式适配双主题 */
+/* Markdown 样式适配 */
 .pl-markdown-content p { margin-bottom: 0.5rem; }
+.pl-markdown-content strong { font-weight: 600; color: inherit; }
+.pl-markdown-content a { color: var(--pl-accent-color); text-decoration: underline; }
 .pl-markdown-content code {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.06);
+  padding: 0.1em 0.3em;
+  border-radius: 0.3em;
+  font-size: 0.9em;
   color: var(--pl-accent-color);
 }
 .pl-dark-mode .pl-markdown-content code {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
 }

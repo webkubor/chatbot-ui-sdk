@@ -180,9 +180,11 @@
         </div>
     </main>
 
-    <link rel="stylesheet" href="./dist/style.css">
-    <script src="./dist/chatbot-ui-sdk.umd.js"></script>
-    <script>
+    <!-- 开发阶段直接引用源码 -->
+    <script type="module">
+        import { ChatbotUI } from './src/index.ts';
+        window.ChatbotUI = ChatbotUI;
+
         const i18n = {
             en: {
                 "nav.docs": "Documentation", "nav.features": "Features",
@@ -215,13 +217,14 @@
             localStorage.setItem('lang', lang);
         };
 
-        // 初始化
         updatePageContent(currentLang);
 
         const ENV_CONFIG = {
             appId: "demo_site",
             apiConfig: { apiKey: "sk-f5854fdec394448287ed5cf0d615d4f5", baseUrl: "https://api.deepseek.com" }
         };
+
+        const isDarkNow = () => document.documentElement.classList.contains('dark');
 
         const getCurrentUIConfig = () => ({
             brand: {
@@ -233,26 +236,42 @@
                 logoUrl: "https://raw.githubusercontent.com/webkubor/upic-images/main/uPic/2026/02/logo.svg"
             },
             colors: { accent: "#2563EB", accentHover: "#1D4ED8", accentSoft: "#DBEAFE" },
-            theme: "auto", mode: "floating", locale: currentLang
+            theme: isDarkNow() ? "dark" : "light", 
+            mode: "floating", 
+            locale: currentLang
         });
 
-        // 初始加载配置
         const initialUI = getCurrentUIConfig();
         configEditor.value = JSON.stringify(initialUI, null, 2);
         ChatbotUI.init({ ...ENV_CONFIG, ...initialUI });
 
-        // 语言切换联动
         document.getElementById('lang-toggle').addEventListener('click', () => {
             currentLang = currentLang === 'en' ? 'zh' : 'en';
             updatePageContent(currentLang);
-            
-            // 同步更新编辑器和 SDK
             const updatedUI = getCurrentUIConfig();
             configEditor.value = JSON.stringify(updatedUI, null, 2);
             ChatbotUI.init({ ...ENV_CONFIG, ...updatedUI });
         });
 
-        // 重启逻辑
+        const themeToggle = document.getElementById('theme-toggle');
+        const toggleTheme = () => {
+            document.documentElement.classList.toggle('dark');
+            const newIsDark = isDarkNow();
+            localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
+            try {
+                const currentConf = JSON.parse(configEditor.value);
+                currentConf.theme = newIsDark ? "dark" : "light";
+                configEditor.value = JSON.stringify(currentConf, null, 2);
+                ChatbotUI.init({ ...ENV_CONFIG, ...currentConf });
+            } catch(e) {
+                ChatbotUI.init({ ...ENV_CONFIG, ...getCurrentUIConfig() });
+            }
+        };
+        themeToggle.addEventListener('click', toggleTheme);
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
         restartBtn.addEventListener('click', () => {
             try {
                 const newUIConfig = JSON.parse(configEditor.value);
@@ -263,17 +282,6 @@
                 }, 2000);
             } catch (e) { alert('Invalid JSON: ' + e.message); }
         });
-
-        // 主题切换
-        const themeToggle = document.getElementById('theme-toggle');
-        const toggleTheme = () => {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-        };
-        themeToggle.addEventListener('click', toggleTheme);
-        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        }
     </script>
 </body>
 </html>
