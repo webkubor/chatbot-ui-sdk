@@ -13,7 +13,7 @@
 
   <p align="center">
     <a href="https://webkubor.github.io/omni-chatbot-sdk/"><strong>📚 Documentation</strong></a> ·
-    <a href="https://omni-chatbot-sdk-wine.vercel.app/"><strong>🌐 Official Site & Demo</strong></a> ·
+    <a href="https://omni-chatbot-sdk.vercel.app/"><strong>🌐 Official Site & Demo</strong></a> ·
     <a href="https://github.com/webkubor/omni-chatbot-sdk/issues"><strong>🐛 Report Bug</strong></a>
   </p>
   
