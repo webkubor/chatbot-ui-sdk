@@ -12,8 +12,8 @@
   </p>
 
   <p align="center">
-    <a href="https://webkubor.github.io/chatbot-ui-sdk/"><strong>📚 View Documentation</strong></a> ·
-    <a href="https://chatbot-ui-sdk.vercel.app/"><strong>🎨 Live Demo</strong></a> ·
+    <a href="https://webkubor.github.io/chatbot-ui-sdk/"><strong>📚 Documentation</strong></a> ·
+    <a href="https://chatbot-ui-sdk-wine.vercel.app/"><strong>🌐 Official Site & Demo</strong></a> ·
     <a href="https://github.com/webkubor/chatbot-ui-sdk/issues"><strong>🐛 Report Bug</strong></a>
   </p>
   
