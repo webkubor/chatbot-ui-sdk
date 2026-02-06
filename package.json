@@ -1,6 +1,6 @@
 {
   "name": "chatbot-ui-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "A universal, customizable, and lightweight chatbot frontend UI SDK.",
   "repository": {
