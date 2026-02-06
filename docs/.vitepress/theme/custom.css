@@ -1,0 +1,65 @@
+/* 引入 Inter 字体让英文更现代 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    /* 品牌色定义 - Webkubor Blue */
+    --vp-c-brand-1: #2563EB;
+    --vp-c-brand-2: #3B82F6;
+    --vp-c-brand-3: #60A5FA;
+    --vp-c-brand-soft: rgba(37, 99, 235, 0.14);
+
+    --vp-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --vp-font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    /* 首页 Hero 样式增强 */
+    --vp-home-hero-name-color: transparent;
+    --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #2563EB 30%, #a855f7 100%);
+    --vp-home-hero-image-background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
+    --vp-home-hero-image-filter: blur(40px);
+}
+
+/* 深色模式适配 */
+.dark {
+    --vp-c-brand-1: #3B82F6;
+    --vp-c-brand-2: #60A5FA;
+    --vp-c-brand-3: #93C5FD;
+}
+
+/* 代码块高亮微调 - 让它更像 VS Code */
+.vp-doc pre {
+    background-color: #0f172a !important;
+    /* Slate 900 */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+/* 按钮样式增强 */
+.VPButton.brand {
+    background-image: linear-gradient(to right, var(--vp-c-brand-1), var(--vp-c-brand-2));
+    border: none;
+    transition: opacity 0.25s, transform 0.2s;
+}
+
+.VPButton.brand:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -4px rgba(37, 99, 235, 0.4);
+}
+
+/* 首页特性卡片 */
+.VPFeature {
+    border: 1px solid rgba(128, 128, 128, 0.1);
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.dark .VPFeature {
+    background-color: rgba(30, 41, 59, 0.3);
+}
+
+.VPFeature:hover {
+    border-color: var(--vp-c-brand-2);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+}

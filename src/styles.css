@@ -16,10 +16,10 @@
   --pl-text-main: 15 23 42;
   --pl-text-sub: 100 116 139;
   --pl-border-color: 226 232 240;
-  
+
   --pl-bubble-bot-bg: 241 245 249;
   --pl-bubble-bot-text: 15 23 42;
-  
+
   --pl-accent-color: #104EFF;
   --pl-accent-hover: #002985;
   --pl-shadow-color: 15 23 42;
@@ -32,11 +32,11 @@
   --pl-bg-input: 30 41 59;
   --pl-text-main: 248 250 252;
   --pl-text-sub: 148 163 184;
-  --pl-border-color: 51 65 85; 
-  
-  --pl-bubble-bot-bg: 30 41 59; 
+  --pl-border-color: 51 65 85;
+
+  --pl-bubble-bot-bg: 30 41 59;
   --pl-bubble-bot-text: 241 245 249;
-  
+
   --pl-accent-color: #60a5fa;
   --pl-accent-hover: #93c5fd;
   --pl-shadow-color: 0 0 0;
@@ -65,62 +65,228 @@
 }
 
 .pl-shadow-premium {
-  box-shadow: 0 20px 40px -10px rgba(var(--pl-shadow-color), 0.15), 
-              0 0 15px -3px rgba(var(--pl-shadow-color), 0.05);
+  box-shadow: 0 20px 40px -10px rgba(var(--pl-shadow-color), 0.15),
+    0 0 15px -3px rgba(var(--pl-shadow-color), 0.05);
   border: 1px solid rgb(var(--pl-border-color));
 }
 
-/* 动画定义 */
+/* 动画定义 - 极致丝滑 & 赛博氛围 */
 @keyframes pl-rotate-gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 @keyframes pl-message-slide-in {
-  from { opacity: 0; transform: translateY(12px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes pl-float-in {
-  from { opacity: 0; transform: translateY(20px) scale(0.96); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.92);
+    filter: blur(10px);
+  }
+
+  100% {
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
 }
 
-/* 功能类 */
-.pl-float-animate { animation: pl-float-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.pl-message-animate { animation: pl-message-slide-in 0.3s ease-out forwards; }
+@keyframes pl-pulse-soft {
 
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 15px rgba(var(--pl-accent-color), 0.2);
+  }
+
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 25px rgba(var(--pl-accent-color), 0.5);
+  }
+}
+
+@keyframes pl-mesh-move {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate(-20px, 30px) rotate(3deg);
+  }
+
+  100% {
+    transform: translate(10px, -15px) rotate(-1deg);
+  }
+}
+
+@keyframes pl-pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* 沉浸式流体背景 */
+.pl-mesh-bg {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 10% 30%, rgba(14, 165, 233, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 40%);
+  filter: blur(40px);
+  animation: pl-mesh-move 20s ease-in-out infinite alternate;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.pl-dark-mode .pl-mesh-bg {
+  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.08) 0%, transparent 40%);
+}
+
+/* 功能类 - High-End Interaction */
+.pl-float-animate {
+  /* Apple-style spring - snappy but fluid */
+  animation: pl-float-in 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  will-change: transform, opacity, filter;
+  backdrop-filter: blur(16px);
+}
+
+.pl-message-animate {
+  animation: pl-message-slide-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.pl-glow-effect {
+  position: relative;
+}
+
+.pl-glow-effect::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  background: radial-gradient(circle, var(--pl-accent-color) 0%, transparent 70%);
+  opacity: 0.4;
+  filter: blur(8px);
+  z-index: -1;
+  animation: pl-pulse-soft 3s infinite ease-in-out;
+}
+
+/* Status Ring for Avatar */
+.pl-status-ring::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  border: 2px solid var(--pl-accent-color);
+  animation: pl-pulse-ring 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+  z-index: -1;
+}
+
+/* Glass Panels */
+.pl-glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.pl-dark-mode .pl-glass-panel {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 科技感流光 border - Cyber Tech */
 .pl-rgb-border {
   position: relative;
-  background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+  background: linear-gradient(135deg, #00C6FF, #0072FF, #9D50BB, #6E48AA);
   background-size: 300% 300%;
-  animation: pl-rotate-gradient 3s ease alternate infinite;
+  animation: pl-rotate-gradient 6s ease alternate infinite;
   border-radius: 9999px;
   padding: 1.5px;
 }
 
-.pl-dark-mode .pl-rgb-border::after { opacity: 0.2; }
+.pl-dark-mode .pl-rgb-border::after {
+  opacity: 0.1;
+}
 
 /* 滚动条 */
-.pl-scrollbar::-webkit-scrollbar { width: 5px; }
-.pl-scrollbar::-webkit-scrollbar-track { background: transparent; }
-.pl-scrollbar::-webkit-scrollbar-thumb { 
-  background: rgba(148, 163, 184, 0.3); 
-  border-radius: 10px; 
+.pl-scrollbar::-webkit-scrollbar {
+  width: 3px;
 }
 
-/* Markdown 样式适配 */
-.pl-markdown-content p { margin-bottom: 0.5rem; }
-.pl-markdown-content strong { font-weight: 600; color: inherit; }
-.pl-markdown-content a { color: var(--pl-accent-color); text-decoration: underline; }
+.pl-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pl-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.0);
+  /* Hidden by default */
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+.pl-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+}
+
+/* Markdown - Clean Tech */
+.pl-markdown-content p {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.pl-markdown-content strong {
+  font-weight: 600;
+  color: inherit;
+}
+
+.pl-markdown-content a {
+  color: var(--pl-accent-color);
+  text-decoration: none;
+  border-bottom: 1px dotted currentColor;
+}
+
 .pl-markdown-content code {
-  background: rgba(0, 0, 0, 0.06);
-  padding: 0.1em 0.3em;
-  border-radius: 0.3em;
-  font-size: 0.9em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  background: rgba(125, 125, 125, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.85em;
   color: var(--pl-accent-color);
 }
+
 .pl-dark-mode .pl-markdown-content code {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }

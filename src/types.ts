@@ -6,10 +6,12 @@ export interface ChatMessage {
 }
 
 export interface ApiConfig {
-  apiKey: string;
-  baseUrl?: string;
-  model?: string;
-  systemPrompt?: string;
+  /** 后端聊天接口地址 */
+  chatEndpoint: string;
+  /** 自定义请求头 (例如 Authorization) */
+  headers?: Record<string, string>;
+  /** 额外附带的 body 参数 */
+  extraBody?: Record<string, any>;
 }
 
 export interface CopyStrings {

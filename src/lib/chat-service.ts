@@ -1,60 +1,73 @@
+import { ApiConfig } from '../types';
+
 export interface ChatMessage {
   role: 'user' | 'assistant' | 'system';
   content: string;
 }
 
-export interface ApiConfig {
-  /** API 密钥 */
-  apiKey: string;
-  /** API 地址，例如 https://api.deepseek.com/v1 */
-  baseUrl?: string;
-  /** 模型名称 */
-  model?: string;
-  /** 系统提示词 */
-  systemPrompt?: string;
-}
-
 /**
- * 发送消息到 AI 服务
- * @param messages 消息历史
- * @param config API 配置参数
+ * 发送消息到业务后端
+ * 遵循标准格式: POST { message: string, history: [] }
  */
 export async function sendMessageToAI(
-  messages: ChatMessage[], 
+  messages: ChatMessage[],
   config: ApiConfig
 ): Promise<string> {
-  const { 
-    apiKey, 
-    baseUrl = 'https://api.deepseek.com', 
-    model = 'deepseek-chat',
-    systemPrompt = "You are a helpful customer support AI."
-  } = config;
+  const { chatEndpoint, headers = {}, extraBody = {} } = config;
+
+  if (!chatEndpoint) {
+    throw new Error("Chat Endpoint is not configured.");
+  }
 
   try {
-    const response = await fetch(`${baseUrl.replace(/\/$/, '')}/chat/completions`, {
+    // 1. 拆分当前问题和历史记录
+    const lastMsg = messages[messages.length - 1];
+    const history = messages.slice(0, -1);
+
+    const userMessage = lastMsg.role === 'user' ? lastMsg.content : "";
+    if (!userMessage) {
+      throw new Error("No user message found to send.");
+    }
+
+    // 2. 构造请求体
+    const payload = {
+      message: userMessage,
+      history: history,
+      ...extraBody
+    };
+
+    // 3. 发起请求
+    const response = await fetch(chatEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
+        ...headers
       },
-      body: JSON.stringify({
-        model: model,
-        messages: [
-          { role: "system", content: systemPrompt },
-          ...messages
-        ],
-        stream: false
-      })
+      body: JSON.stringify(payload)
     });
 
     if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
+      const errText = await response.text();
+      throw new Error(`Backend request failed (${response.status}): ${errText.substring(0, 100)}...`);
     }
 
-    const data = await response.json();
-    return data.choices?.[0]?.message?.content || "Sorry, I couldn't understand that.";
+    // 4. 解析标准响应结构
+    const result = await response.json();
+
+    // 兼容 { success: true, data: { reply: "..." } } 格式
+    if (result && result.data && result.data.reply) {
+      return result.data.reply;
+    }
+
+    // 兼容简单的 { reply: "..." } 或 { message: "..." }
+    if (result.reply) return result.reply;
+    if (result.message) return result.message;
+
+    console.warn("Unexpected response format:", result);
+    return "Received an empty response from server.";
+
   } catch (error) {
-    console.error('Error calling AI Service:', error);
+    console.error('Chat Service Error:', error);
     throw error;
   }
 }

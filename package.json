@@ -10,6 +10,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && cp index.html dist/",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
     "prepublishOnly": "npm run build",
     "publish:public": "npm publish --access public",
     "preview": "vite preview",
@@ -53,7 +56,9 @@
     "tailwindcss": "^3.4.1",
     "terser": "^5.46.0",
     "typescript": "^5.3.3",
-    "vite": "^5.1.4"
+    "vite": "^5.1.4",
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.27"
   },
   "pnpm": {
     "ignoredBuiltDependencies": [
