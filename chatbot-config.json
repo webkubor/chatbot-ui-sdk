@@ -1,0 +1,19 @@
+{
+  "brand": {
+    "name": "Chatbot UI",
+    "headerTitle": "AI Assistant",
+    "headerSubtitle": "Universal Chatbot Widget",
+    "greeting": "Hi! How can I help you today?",
+    "poweredByName": "Chatbot UI SDK",
+    "poweredByUrl": "https://github.com/webkubor/chatbot-ui-sdk",
+    "logoUrl": "https://raw.githubusercontent.com/webkubor/upic-images/main/uPic/2026/02/logo.svg"
+  },
+  "colors": {
+    "accent": "#2563EB",
+    "accentHover": "#1D4ED8",
+    "accentSoft": "#DBEAFE"
+  },
+  "theme": "auto",
+  "mode": "floating",
+  "locale": "auto"
+}

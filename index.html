@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="src/logo.svg">
+    <title>Chatbot UI SDK - Universal AI Widget</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink-950: #0b1220;
+            --ink-900: #0f172a;
+            --ink-700: #334155;
+            --ink-600: #475569;
+            --fog-50: #f8fafc;
+            --fog-100: #f1f5f9;
+            --accent-500: #2563eb;
+            --accent-600: #1d4ed8;
+            --accent-200: #bfdbfe;
+            --ember-400: #0ea5e9;
+            
+            --bg-gradient: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+            --grid-color: rgba(15, 23, 42, 0.06);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(148, 163, 184, 0.2);
+            --text-main: var(--ink-900);
+            --text-muted: var(--ink-600);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+                --grid-color: rgba(255, 255, 255, 0.03);
+                --card-bg: rgba(30, 41, 59, 0.7);
+                --card-border: rgba(255, 255, 255, 0.1);
+                --text-main: #f8fafc;
+                --text-muted: #94a3b8;
+            }
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background:
+                radial-gradient(1200px 800px at 10% -10%, rgba(37, 99, 235, 0.18) 0%, transparent 55%),
+                radial-gradient(900px 700px at 90% 10%, rgba(14, 165, 233, 0.18) 0%, transparent 50%),
+                var(--bg-gradient);
+            background-image:
+                radial-gradient(1200px 800px at 10% -10%, rgba(37, 99, 235, 0.18) 0%, transparent 55%),
+                radial-gradient(900px 700px at 90% 10%, rgba(14, 165, 233, 0.18) 0%, transparent 50%),
+                var(--bg-gradient),
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: auto, auto, auto, 64px 64px, 64px 64px;
+            color: var(--text-main);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .display-font {
+            font-family: 'Sora', sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(110deg, var(--text-main) 0%, var(--text-main) 45%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .noise-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            mix-blend-mode: multiply;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+            transition: background 0.3s ease, border 0.3s ease;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border-radius: 9999px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, transparent 60%);
+            filter: blur(10px);
+            animation: floatGlow 14s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .float-orb {
+            animation: floatOrb 18s ease-in-out infinite;
+        }
+
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(16px);
+            animation: revealUp 0.8s ease forwards;
+        }
+
+        .card-hover {
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.16);
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+            50% { transform: translate(40px, -20px) scale(1.05); opacity: 1; }
+            100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-18px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes revealUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Playground specific styles */
+        .mac-dots div { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+        
+        #config-editor {
+            scrollbar-width: thin;
+            scrollbar-color: #334155 #0f172a;
+        }
+        #config-editor::-webkit-scrollbar { width: 8px; }
+        #config-editor::-webkit-scrollbar-track { background: #0f172a; }
+        #config-editor::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+        .dark-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        @media (prefers-color-scheme: dark) {
+            .dark-section {
+                background: rgba(15, 23, 42, 0.9);
+                border-top: 1px solid rgba(255, 255, 255, 0.05);
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+    <div class="noise-overlay"></div>
+
+    <!-- Hero Section -->
+    <div class="relative overflow-hidden pt-20 pb-32 lg:pt-32 lg:pb-40">
+        <div class="hero-glow" style="top:-120px; left:-120px;"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex justify-end mb-6">
+                <div class="inline-flex items-center gap-2 rounded-full bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-sm px-3 py-1 transition-colors">
+                    <button id="lang-en" class="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">EN</button>
+                    <span class="text-slate-300 dark:text-slate-600">/</span>
+                    <button id="lang-zh" class="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">中文</button>
+                </div>
+            </div>
+            <div class="text-center max-w-3xl mx-auto">
+                <div class="mb-8 flex justify-center">
+                    <div
+                        class="flex items-center gap-3 px-5 py-2 bg-white/90 dark:bg-slate-800/90 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 reveal-up transition-colors">
+                        <div class="w-8 h-8 flex items-center justify-center">
+                            <!-- Neural Spark Logo -->
+                            <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-sm">
+                                <defs>
+                                    <linearGradient id="logo_grad" x1="28" y1="32" x2="228" y2="212" gradientUnits="userSpaceOnUse">
+                                        <stop offset="0%" stop-color="#2563EB"/>
+                                        <stop offset="100%" stop-color="#06B6D4"/>
+                                    </linearGradient>
+                                </defs>
+                                <path d="M128 32C72.8 32 28 73.2 28 124C28 148.4 39.6 170.6 58.8 186.2L46 224L90.6 205.8C102.2 209.8 114.8 212 128 212C183.2 212 228 170.8 228 120C228 73.2 183.2 32 128 32Z" fill="url(#logo_grad)"/>
+                                <path d="M128 72L140 108L176 120L140 132L128 168L116 132L80 120L116 108L128 72Z" fill="white"/>
+                            </svg>
+                        </div>
+                        <span class="font-bold text-xl tracking-tight text-slate-900 dark:text-white" data-i18n="brand.name">Chatbot UI SDK</span>
+                    </div>
+                </div>
+
+                <div
+                    class="inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-800/50 mb-6 reveal-up transition-colors" style="animation-delay: 0.1s;">
+                    <span class="flex h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-400 mr-2"></span>
+                    <span data-i18n="hero.badge">v1.0.0 Release</span>
+                </div>
+                <h1 class="text-5xl tracking-tight font-extrabold text-slate-900 dark:text-white sm:text-6xl md:text-7xl mb-6 display-font reveal-up" style="animation-delay: 0.2s;">
+                    <span class="block" data-i18n="hero.title1">Universal</span>
+                    <span class="block gradient-text" data-i18n="hero.title2">AI Frontend Widget</span>
+                </h1>
+                <p class="mt-3 max-w-md mx-auto text-base text-slate-600 dark:text-slate-400 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl reveal-up" style="animation-delay: 0.3s;">
+                    <span data-i18n="hero.desc1">A lightweight, customizable, and framework-agnostic chatbot UI SDK.</span>
+                    <br>
+                    <span data-i18n="hero.desc2">Plug any AI backend into any website in minutes.</span>
+                </p>
+            </div>
+        </div>
+
+        <div
+            class="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-full z-0 opacity-40 pointer-events-none">
+            <div class="absolute -top-12 left-1/4 w-96 h-96 bg-blue-200 dark:bg-blue-900/20 rounded-full mix-blend-multiply filter blur-3xl float-orb">
+            </div>
+            <div class="absolute -top-12 right-1/4 w-80 h-80 bg-cyan-200 dark:bg-cyan-900/20 rounded-full mix-blend-multiply filter blur-3xl float-orb" style="animation-delay: -6s;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Playground -->
+    <div class="dark-section py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold display-font text-slate-900 dark:text-white mb-4 reveal-up">Live Playground</h2>
+                <p class="text-lg text-slate-600 dark:text-slate-400 reveal-up" style="animation-delay: 0.1s;">Personalize your AI assistant in real-time. Try changing the brand name or colors.</p>
+            </div>
+            
+            <div class="max-w-5xl mx-auto glass-card rounded-[32px] overflow-hidden shadow-2xl reveal-up" style="animation-delay: 0.2s;">
+                <!-- Mac style header -->
+                <div class="bg-slate-900 px-6 py-4 flex justify-between items-center border-b border-white/5">
+                    <div class="flex gap-2 mac-dots">
+                        <div class="dot-red"></div>
+                        <div class="dot-yellow"></div>
+                        <div class="dot-green"></div>
+                    </div>
+                    <div class="text-xs font-mono text-slate-400 font-medium">config.json</div>
+                    <button id="restart-btn" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-5 py-2 rounded-xl transition-all active:scale-95 flex items-center gap-2 shadow-lg shadow-blue-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path></svg>
+                        Apply & Restart
+                    </button>
+                </div>
+                <div class="relative">
+                    <textarea id="config-editor" class="w-full h-[500px] bg-[#0f172a] text-blue-300 font-mono text-base p-8 outline-none focus:ring-0 transition-all resize-none leading-relaxed" spellcheck="false"></textarea>
+                    <div class="absolute bottom-4 right-8 text-[10px] text-slate-500 font-mono uppercase tracking-widest pointer-events-none">Interactive Editor</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Integration Details -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 mb-24">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-card rounded-3xl p-10 card-hover reveal-up">
+                <div class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-6 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4 display-font" data-i18n="section.script.title">Browser Script</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm mb-0" data-i18n="section.script.desc">Zero-dependency bundle. Works with any HTML page via CDN.</p>
+            </div>
+            <div class="glass-card rounded-3xl p-10 card-hover reveal-up" style="animation-delay: 0.1s;">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-6 transition-colors">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M23.32 10.26c0 1.23-1.5 2.35-3.73 3.07a14.5 14.5 0 0 1-4.13.58c-1 0-1.97-.09-2.88-.24-1.53.54-3 1.06-4.43 1.55 1.33.2 2.73.32 4.19.32 3.16 0 5.83-.55 7.73-1.38 2.42-1.05 3.95-2.58 3.95-4.88 0-2.35-1.55-3.9-4-4.97-1.92-.85-4.64-1.4-7.85-1.4-3.21 0-5.93.55-7.85 1.4-2.45 1.07-4 2.62-4 4.97 0 1.03.3 1.97.88 2.79 0 0 1.33-1.51 5.64-3.54 1.88-.88 4.53-1.56 7.87-1.56.57 0 1.14.01 1.7.03 0 0 .01-.06.01-.07 0-.01.19-.1.19-.1s-1.18-.35-2.52-.6c-.78-.14-1.6-.21-2.44-.21-3.3 0-6.13.55-8.13 1.43C2.5 8.3 1 9.5 1 11.2c0 2.12 1.6 3.45 3.9 4.3 1.97.7 4.5 1.13 7.6 1.13.9 0 1.76-.04 2.6-.1 1.53-.51 3.1-1.04 4.6-1.6a11.9 11.9 0 0 0 3.62-2.32c0 0 .08-.07.08-.07 0 0-.08.06-.08.06z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4 display-font" data-i18n="section.npm.title">React Integration</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm mb-0" data-i18n="section.npm.desc">Official React component with full TypeScript support.</p>
+            </div>
+            <div class="glass-card rounded-3xl p-10 card-hover reveal-up" style="animation-delay: 0.2s;">
+                <div class="w-12 h-12 rounded-2xl bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400 flex items-center justify-center mb-6 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4 display-font" data-i18n="feature.theme.title">Dynamic Themes</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm mb-0" data-i18n="feature.theme.desc">Auto dark mode and full brand color matching via JSON.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SDK Initialization -->
+    <link rel="stylesheet" href="./dist/style.css">
+    <script src="./dist/chatbot-ui-sdk.umd.js"></script>
+    <script>
+        const configEditor = document.getElementById('config-editor');
+        const restartBtn = document.getElementById('restart-btn');
+
+        const ENV_CONFIG = {
+            appId: "demo_site",
+            apiConfig: {
+                apiKey: "sk-f5854fdec394448287ed5cf0d615d4f5",
+                baseUrl: "https://api.deepseek.com",
+                systemPrompt: "You are a helpful assistant."
+            }
+        };
+
+        const defaultUIConfig = {
+            brand: {
+                name: "Chatbot UI",
+                headerTitle: "AI Assistant",
+                headerSubtitle: "Universal Chatbot Widget",
+                poweredByName: "Chatbot UI SDK",
+                poweredByUrl: "https://github.com/webkubor/chatbot-ui-sdk",
+                logoUrl: "https://raw.githubusercontent.com/webkubor/upic-images/main/uPic/2026/02/logo.svg"
+            },
+            colors: {
+                accent: "#2563EB",
+                accentHover: "#1D4ED8",
+                accentSoft: "#DBEAFE"
+            },
+            theme: "auto",
+            mode: "floating",
+            locale: "auto"
+        };
+
+        fetch('chatbot-config.json')
+            .then(res => res.json())
+            .then(config => {
+                const { apiConfig, appId, ...uiPart } = config;
+                const finalUI = { ...defaultUIConfig, ...uiPart };
+                configEditor.value = JSON.stringify(finalUI, null, 2);
+                ChatbotUI.init({ ...ENV_CONFIG, ...finalUI });
+            })
+            .catch(err => {
+                configEditor.value = JSON.stringify(defaultUIConfig, null, 2);
+                ChatbotUI.init({ ...ENV_CONFIG, ...defaultUIConfig });
+            });
+
+        restartBtn.addEventListener('click', () => {
+            const val = configEditor.value.trim();
+            if (!val) return;
+            try {
+                const newUIConfig = JSON.parse(val);
+                ChatbotUI.init({ ...ENV_CONFIG, ...newUIConfig });
+                
+                restartBtn.innerHTML = '✅ Applied!';
+                restartBtn.classList.replace('bg-blue-600', 'bg-emerald-600');
+                setTimeout(() => {
+                    restartBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path></svg> Apply & Restart';
+                    restartBtn.classList.replace('bg-emerald-600', 'bg-blue-600');
+                }, 2000);
+            } catch (e) {
+                alert('Invalid JSON format: ' + e.message);
+            }
+        });
+
+        console.log('Chatbot UI Demo Loaded');
+
+        const i18n = {
+            en: {
+                "brand.name": "Chatbot UI SDK",
+                "hero.badge": "v1.0.0 Release",
+                "hero.title1": "Universal",
+                "hero.title2": "AI Frontend Widget",
+                "hero.desc1": "A lightweight, customizable, and framework-agnostic chatbot UI SDK.",
+                "hero.desc2": "Plug any AI backend into any website in minutes."
+            },
+            zh: {
+                "brand.name": "Chatbot UI SDK",
+                "hero.badge": "v1.0.0 发布",
+                "hero.title1": "通用型",
+                "hero.title2": "AI 前端组件库",
+                "hero.desc1": "轻量、高度可定制、框架无关的聊天机器人 UI SDK。",
+                "hero.desc2": "几分钟内将任何 AI 后端接入您的网站。"
+            }
+        };
+
+        const setLang = (lang) => {
+            const dict = i18n[lang] || i18n.en;
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-i18n]').forEach((el) => {
+                const key = el.getAttribute('data-i18n');
+                if (key && dict[key]) {
+                    el.textContent = dict[key];
+                }
+            });
+            localStorage.setItem('cb_lang', lang);
+        };
+
+        const langEn = document.getElementById('lang-en');
+        const langZh = document.getElementById('lang-zh');
+        if (langEn) langEn.addEventListener('click', () => setLang('en'));
+        if (langZh) langZh.addEventListener('click', () => setLang('zh'));
+
+        const savedLang = localStorage.getItem('cb_lang');
+        const fallbackLang = (navigator.language || 'en').startsWith('zh') ? 'zh' : 'en';
+        setLang(savedLang || fallbackLang);
+    </script>
+</body>
+
+</html>
