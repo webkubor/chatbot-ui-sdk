@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ChatbotProps, ChatMessage, Locale, CopyStrings } from '../types';
 import { DEFAULT_COPY } from '../constants';
 import { sendMessageToAI } from '../lib/chat-service';
@@ -13,12 +13,16 @@ export const useChatbot = (props: ChatbotProps) => {
     return typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  const [resolvedLocale] = useState<Locale>(() => {
+  const resolvedLocale = useMemo<Locale>(() => {
     if (locale !== 'auto') return locale;
     if (typeof navigator === 'undefined') return 'en';
-    const lang = (navigator.language || 'en').toLowerCase();
-    return lang.startsWith('zh') ? 'zh' : 'en';
-  });
+    
+    // 优先从浏览器语言列表识别
+    const browserLangs = navigator.languages || [navigator.language];
+    const isChinese = browserLangs.some(lang => lang.toLowerCase().startsWith('zh'));
+    
+    return isChinese ? 'zh' : 'en';
+  }, [locale]);
 
   // 文案处理逻辑
   const defaultBrandName = resolvedLocale === 'zh' ? '智能助手' : 'AI Assistant';
