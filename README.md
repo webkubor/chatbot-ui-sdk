@@ -1,44 +1,84 @@
-# Chatbot UI SDK
+<div align="center">
+  <a href="https://github.com/webkubor/chatbot-ui-sdk">
+    <img src="https://raw.githubusercontent.com/webkubor/upic-images/main/uPic/2026/02/logo.svg" alt="Logo" width="80" height="80">
+  </a>
 
-A universal, lightweight, and highly customizable chatbot frontend UI SDK.
-Embed a powerful AI assistant into any website or web application with just a few lines of code.
+  <h1 align="center">Chatbot UI SDK</h1>
 
-![License](https://img.shields.io/npm/l/chatbot-ui-sdk?style=flat-square)
-![Version](https://img.shields.io/npm/v/chatbot-ui-sdk?style=flat-square)
+  <p align="center">
+    <strong>Universal AI Frontend Widget & SDK</strong>
+    <br />
+    The missing UI layer for your custom AI Agents.
+  </p>
 
-## Features
+  <p align="center">
+    <a href="https://webkubor.github.io/chatbot-ui-sdk/"><strong>📚 View Documentation</strong></a> ·
+    <a href="https://chatbot-ui-sdk-wine.vercel.app/"><strong>🎨 Live Demo</strong></a> ·
+    <a href="https://github.com/webkubor/chatbot-ui-sdk/issues"><strong>🐛 Report Bug</strong></a>
+  </p>
+  
+  <p align="center">
+    <!-- Version -->
+    <a href="https://www.npmjs.com/package/chatbot-ui-sdk">
+        <img src="https://img.shields.io/npm/v/chatbot-ui-sdk?style=flat-square&color=blue" alt="npm version" />
+    </a>
+    <!-- License -->
+    <a href="./LICENSE">
+        <img src="https://img.shields.io/npm/l/chatbot-ui-sdk?style=flat-square&color=blue" alt="license" />
+    </a>
+    <!-- Bundle Size -->
+    <a href="https://bundlephobia.com/result?p=chatbot-ui-sdk">
+        <img src="https://img.shields.io/bundlephobia/minzip/chatbot-ui-sdk?style=flat-square&color=success" alt="bundle size" />
+    </a>
+    <!-- Docs Build -->
+    <a href="https://github.com/webkubor/chatbot-ui-sdk/actions/workflows/deploy-docs.yml">
+        <img src="https://img.shields.io/github/actions/workflow/status/webkubor/chatbot-ui-sdk/deploy-docs.yml?label=docs&style=flat-square" alt="docs build" />
+    </a>
+  </p>
+</div>
 
-- 🤖 **AI-Agnostic**: Compatible with any OpenAI-compatible API (DeepSeek, OpenAI, Groq, etc.).
-- 🎨 **Fully Customizable**: Adjust colors, themes, logos, and branding to match your site.
-- 🌍 **Multilingual**: Built-in support for English and Chinese, with easy localization overrides.
-- 🚀 **Zero Dependencies (CDN)**: Optimized UMD build that works everywhere.
-- 🌓 **Auto Dark Mode**: Responds to system preferences or can be fixed to a specific theme.
-- 📝 **Markdown Ready**: High-quality rendering for text, lists, and code blocks.
+<br />
 
-## Installation
+## ⚡️ Introduction
 
-### Via CDN (Easiest)
+**Chatbot UI SDK** is a professional, framework-agnostic frontend widget designed to add an AI chat interface to any website in seconds.
 
-Add the following to your HTML body:
+Unlike other chat widgets that lock you into specific providers, this SDK is **backend-agnostic**. You provide the API endpoint, and we handle the beautiful UI, state management, Markdown rendering, and animations.
+
+## ✨ Features
+
+- **🎨 Ultra-Premium UI**: Glassmorphism design, fluid mesh gradients, and spring-physics animations.
+- **🔌 Backend Agnostic**: Works with **DeepSeek**, **OpenAI**, **Claude**, or any custom LLM backend.
+- **🌙 Themeable**: Built-in Light/Dark modes with automatic system detection.
+- **🌍 I18n Ready**: Native support for English (EN) and Chinese (ZH), with override capabilities.
+- **⚛️ Framework Ready**: Optimized for both vanilla HTML/JS (UMD) and React applications.
+- **🛡 Security First**: Designed effectively to hide API keys by enforcing a proxy pattern.
+
+## 🚀 Quick Start
+
+### 1. The Easy Way (CDN)
+
+Just drop this into your HTML. No build tools required.
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/chatbot-ui-sdk/dist/chatbot-ui-sdk.umd.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chatbot-ui-sdk/dist/style.css">
+
 <script>
   ChatbotUI.init({
     apiConfig: {
-      chatEndpoint: "https://your-backend.com/api/chat", // Your backend proxy endpoint
-      headers: { "Authorization": "Bearer TOKEN" } // Optional custom headers
+      // Point this to your backend proxy (Next.js API, Node, Python, etc.)
+      chatEndpoint: "https://your-api.com/chat"
     },
-    theme: "auto", 
     brand: {
       name: "My AI Assistant",
-      logoUrl: "https://example.com/logo.png"
+      logoUrl: "https://your-site.com/logo.png"
     }
   });
 </script>
 ```
 
-### Via NPM
+### 2. The Pro Way (NPM + React)
 
 ```bash
 npm install chatbot-ui-sdk
@@ -48,79 +88,55 @@ npm install chatbot-ui-sdk
 import { Chatbot } from 'chatbot-ui-sdk';
 import 'chatbot-ui-sdk/dist/style.css';
 
-function App() {
+export default function App() {
   return (
-    <Chatbot 
-      apiConfig={{ chatEndpoint: "/api/ai-customer-service/chat" }} 
-      theme="light"
-    />
+      <Chatbot 
+        apiConfig={{ chatEndpoint: "/api/chat" }}
+        theme="auto" 
+      />
   );
 }
 ```
 
-## Backend Integration Guide
+## 🔌 Backend Protocol
 
-To ensure security, this SDK is designed to communicate with your backend, not directly with LLM providers.
+This SDK **does not** communicate directly with OpenAI/DeepSeek to prevent leaking your API keys. Instead, it expects your backend to handle the proxying.
 
-### Expected API Contract
-
-Your backend endpoint (e.g., `/api/ai-customer-service/chat`) must accept a POST request with the following body:
+**Request (POST):**
 
 ```json
 {
-  "message": "User's current input text",
-  "history": [
-    { "role": "assistant", "content": "Hello..." },
-    { "role": "user", "content": "Previous question..." }
-  ]
+  "message": "User input",
+  "history": [{"role": "user", "content": "..."}]
 }
 ```
 
-And return a JSON response in one of the following formats:
-
-**Option A (Recommended):**
+**Response:**
 
 ```json
 {
   "success": true,
-  "data": {
-    "reply": "The AI's response text here..."
-  }
+  "data": { "reply": "AI response content..." }
 }
 ```
 
-**Option B (Simple):**
+👉 [Read the full Integration Guide](https://webkubor.github.io/chatbot-ui-sdk/guide/backend-protocol.html)
 
-```json
-{
-  "reply": "The AI's response text here..."
-}
+## 🛠 Development
+
+This project is a monorepo containing the SDK source and a documentation site.
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start SDK development server (Demo Page)
+pnpm dev
+
+# Start Documentation server (VitePress)
+pnpm docs:dev
 ```
 
-## Configuration
-
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| `apiConfig` | `ApiConfig` | - | **Required**. Backend connection settings. |
-| `theme` | `'auto' \| 'light' \| 'dark'` | `'auto'` | Visual theme mode. |
-| `mode` | `'floating' \| 'embedded'` | `'floating'` | Display mode. |
-| `brand` | `BrandConfig` | - | Custom logo, name, and links. |
-| `colors` | `ThemeColors` | - | Custom accent colors. |
-| `copy` | `CopyOverrides` | - | Custom text strings for localization. |
-
-### ApiConfig Type
-
-```typescript
-interface ApiConfig {
-  /** The full URL of your backend chat endpoint */
-  chatEndpoint: string;
-  /** Optional custom headers (e.g. for authentication) */
-  headers?: Record<string, string>;
-  /** Optional extra body parameters to send with every request */
-  extraBody?: Record<string, any>;
-}
-```
-
-## License
+## 📄 License
 
 MIT © [webkubor](https://github.com/webkubor)

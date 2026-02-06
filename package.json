@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "type": "module",
   "description": "A universal, customizable, and lightweight chatbot frontend UI SDK.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webkubor/chatbot-ui-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/webkubor/chatbot-ui-sdk/issues"
+  },
+  "homepage": "https://webkubor.github.io/chatbot-ui-sdk/",
   "main": "dist/chatbot-ui-sdk.cjs.js",
   "module": "dist/chatbot-ui-sdk.es.js",
   "types": "dist/index.d.ts",
