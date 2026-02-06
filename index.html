@@ -483,8 +483,11 @@
             colors: { accent: "#2563EB", accentHover: "#1D4ED8", accentSoft: "#DBEAFE" },
             theme: isDarkNow() ? "dark" : "light",
             mode: "floating",
-            locale: currentLang
+            locale: "auto" // 默认设为 auto 触发 SDK 自动识别
         });
+
+        console.log('[Demo Page] Current lang from page logic:', currentLang);
+        console.log('[Demo Page] Passing to SDK:', getCurrentUIConfig());
 
         const initialUI = getCurrentUIConfig();
         configEditor.value = JSON.stringify(initialUI, null, 2);

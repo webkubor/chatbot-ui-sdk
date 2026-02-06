@@ -19,9 +19,13 @@ export const useChatbot = (props: ChatbotProps) => {
     
     // 优先从浏览器语言列表识别
     const browserLangs = navigator.languages || [navigator.language];
-    const isChinese = browserLangs.some(lang => lang.toLowerCase().startsWith('zh'));
+    console.log('[Chatbot SDK] Detected browser languages:', browserLangs);
     
-    return isChinese ? 'zh' : 'en';
+    const isChinese = browserLangs.some(lang => lang.toLowerCase().startsWith('zh'));
+    const finalLocale = isChinese ? 'zh' : 'en';
+    
+    console.log('[Chatbot SDK] Final resolved locale:', finalLocale);
+    return finalLocale;
   }, [locale]);
 
   // 文案处理逻辑
