@@ -32,23 +32,24 @@ export const Chatbot: React.FC<ChatbotProps> = (props) => {
   const renderChatWindow = () => (
     <div
       className={cn(
-        "pl-bg-background pl-border pl-shadow-2xl pl-flex pl-flex-col pl-overflow-hidden pl-float-animate",
-        isDarkMode ? "pl-dark-mode pl-bg-slate-900 pl-border-slate-800" : "pl-bg-white pl-border-slate-200",
+        "pl-flex pl-flex-col pl-overflow-hidden pl-float-animate",
+        isDarkMode ? "pl-dark-mode pl-bg-slate-900" : "pl-bg-white",
         mode === 'floating' 
-          ? "pl-fixed pl-bottom-24 pl-right-6 pl-w-[380px] pl-h-[600px] pl-max-h-[calc(100vh-120px)] pl-rounded-3xl pl-z-50 max-sm:pl-w-[calc(100vw-24px)] max-sm:pl-right-3 max-sm:pl-left-3 max-sm:pl-bottom-20"
+          ? "pl-fixed pl-bottom-24 pl-right-6 pl-w-[380px] pl-h-[600px] pl-max-h-[calc(100vh-120px)] pl-rounded-3xl pl-z-50 pl-shadow-2xl max-sm:pl-w-[calc(100vw-24px)] max-sm:pl-right-3 max-sm:pl-left-3 max-sm:pl-bottom-20"
           : "pl-h-full pl-w-full pl-rounded-2xl"
       )}
       style={{
         '--pl-accent-color': colors?.accent || (isDarkMode ? '#60a5fa' : '#104EFF'),
-        '--pl-accent-hover': colors?.accentHover,
-        '--pl-accent-soft': colors?.accentSoft
+        'border': '1px solid var(--pl-border)', // 使用动态变量边框
+        ...(colors?.accentHover ? { '--pl-accent-hover': colors.accentHover } : {}),
+        ...(colors?.accentSoft ? { '--pl-accent-soft': colors.accentSoft } : {})
       } as any}
     >
-      {/* 顶部标题栏 - 高级玻璃拟态 */}
+      {/* 顶部标题栏 */}
       <div className={cn(
-        "pl-p-5 pl-flex pl-justify-between pl-items-center pl-shadow-sm pl-relative pl-z-10",
-        isDarkMode ? "pl-bg-slate-800/80 pl-backdrop-blur-md pl-border-b pl-border-slate-700/50" : "pl-bg-slate-900 pl-text-white"
-      )}>
+        "pl-p-5 pl-flex pl-justify-between pl-items-center pl-relative pl-z-10",
+        isDarkMode ? "pl-bg-slate-800/80 pl-backdrop-blur-md" : "pl-bg-slate-900 pl-text-white"
+      )} style={{ borderBottom: '1px solid var(--pl-border)' }}>
         <div className="pl-flex pl-items-center pl-gap-3.5">
           <div className={cn(
             "pl-w-10 pl-h-10 pl-rounded-full pl-flex pl-items-center pl-justify-center pl-transition-all",
@@ -93,9 +94,12 @@ export const Chatbot: React.FC<ChatbotProps> = (props) => {
               msg.role === 'user' 
                 ? "pl-bg-blue-600 pl-text-white pl-rounded-br-none" 
                 : isDarkMode 
-                  ? "pl-bg-slate-800 pl-text-slate-100 pl-border pl-border-slate-700/50 pl-rounded-bl-none"
-                  : "pl-bg-white pl-text-slate-800 pl-border pl-border-slate-100 pl-rounded-bl-none"
-            )} style={msg.role === 'user' && colors?.accent ? { backgroundColor: colors.accent } : {}}>
+                  ? "pl-bg-slate-800 pl-text-slate-100 pl-rounded-bl-none"
+                  : "pl-bg-white pl-text-slate-800 pl-rounded-bl-none"
+            )} style={{ 
+                ...(msg.role === 'user' && colors?.accent ? { backgroundColor: colors.accent } : {}),
+                border: msg.role === 'assistant' ? '1px solid var(--pl-border)' : 'none'
+            }}>
               {msg.role === 'assistant' ? (
                 <div className="pl-markdown-content">
                   <ReactMarkdown>{msg.content}</ReactMarkdown>
@@ -108,8 +112,8 @@ export const Chatbot: React.FC<ChatbotProps> = (props) => {
           <div className="pl-flex pl-justify-start pl-animate-in pl-fade-in pl-duration-300">
             <div className={cn(
               "pl-px-4 pl-py-4 pl-rounded-2xl pl-rounded-bl-none pl-shadow-sm",
-              isDarkMode ? "pl-bg-slate-800 pl-border pl-border-slate-700/50" : "pl-bg-white pl-border pl-border-slate-100"
-            )}>
+              isDarkMode ? "pl-bg-slate-800" : "pl-bg-white"
+            )} style={{ border: '1px solid var(--pl-border)' }}>
               <div className="pl-flex pl-items-center pl-space-x-1.5">
                 <div className={cn("pl-w-1.5 pl-h-1.5 pl-rounded-full pl-typing-dot", isDarkMode ? "pl-bg-blue-400" : "pl-bg-blue-600")}></div>
                 <div className={cn("pl-w-1.5 pl-h-1.5 pl-rounded-full pl-typing-dot", isDarkMode ? "pl-bg-blue-400" : "pl-bg-blue-600")} style={{animationDelay: '0.2s'}}></div>
@@ -122,9 +126,9 @@ export const Chatbot: React.FC<ChatbotProps> = (props) => {
 
       {/* 输入框区域 */}
       <div className={cn(
-        "pl-p-5 pl-border-t pl-relative",
-        isDarkMode ? "pl-bg-slate-800/50 pl-border-slate-700/50" : "pl-bg-white pl-border-slate-100"
-      )}>
+        "pl-p-5 pl-relative",
+        isDarkMode ? "pl-bg-slate-800/50" : "pl-bg-white"
+      )} style={{ borderTop: '1px solid var(--pl-border)' }}>
         <form onSubmit={handleSubmit} className="pl-rgb-border pl-rounded-full pl-transition-all hover:pl-scale-[1.01]">
           <div className={cn(
             "pl-rounded-full pl-flex pl-items-center pl-p-1.5 pl-relative pl-z-10",
@@ -175,7 +179,10 @@ export const Chatbot: React.FC<ChatbotProps> = (props) => {
               ? isDarkMode ? "pl-bg-slate-800 pl-text-white pl-rotate-90" : "pl-bg-slate-900 pl-text-white pl-rotate-90"
               : isDarkMode ? "pl-bg-blue-500 pl-text-white" : "pl-bg-blue-600 pl-text-white"
           )}
-          style={!isOpen && colors?.accent ? { backgroundColor: colors.accent } : {}}
+          style={{
+            ...(!isOpen && colors?.accent ? { backgroundColor: colors.accent } : {}),
+            'border': '1px solid var(--pl-border)' // 悬浮按钮也加一个细腻边框
+          } as any}
         >
           {isOpen ? <X size={28} /> : <MessageCircle size={32} />}
         </button>
