@@ -37,5 +37,7 @@ Thumbs.db
 docs/.vitepress/dist
 docs/.vitepress/cache
 
+.npmrc
+
 # TypeScript
 *.tsbuildinfo
