@@ -77,7 +77,7 @@ export default defineConfig({
     },
 
     head: [
-        ['link', { rel: 'icon', href: '/logo.svg' }]
+        ['link', { rel: 'icon', href: '/omni-chatbot-sdk/logo.svg' }]
     ],
 
     markdown: {
@@ -86,7 +86,7 @@ export default defineConfig({
     },
 
     themeConfig: {
-        logo: '/logo.svg',
+        logo: '/omni-chatbot-sdk/logo.svg',
 
         // 社交链接是公用的
         socialLinks: [
